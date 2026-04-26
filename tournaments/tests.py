@@ -40,3 +40,15 @@ class TournamentRegistrationTests(TestCase):
         })
         self.assertEqual(response.status_code, 400)
         self.assertIn("deadline passed", str(response.data))
+
+    def test_tournament_full_fails(self):
+        # Register first team
+        self.client.post("/api/register/", {"tournament_id": self.tournament.id, "team_id": self.team1.id})
+        # Register second team
+        self.client.post("/api/register/", {"tournament_id": self.tournament.id, "team_id": self.team2.id})
+        # Third team should fail (max_teams=2)
+        team3 = Team.objects.create(name="Team Gamma", members_count=2)
+        response = self.client.post("/api/register/", {"tournament_id": self.tournament.id, "team_id": team3.id})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("Tournament is full", str(response.data))
+
