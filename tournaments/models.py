@@ -34,3 +34,8 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.team.name} -> {self.tournament.name}"
+
+# Model relationships:
+# - Tournament has many Registrations (one-to-many)
+# - Team has many Registrations (one-to-many)
+# - Registration links Tournament and Team with unique_together constraint
