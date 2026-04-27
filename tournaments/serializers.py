@@ -26,11 +26,13 @@ class RegisterTeamSerializer(serializers.Serializer):
 
     def validate(self, data):
         from .models import Tournament, Team, Registration
-        tournament = Tournament.objects.get(id=data['tournament_id'])
-        team = Team.objects.get(id=data['team_id'])
+        tournament = Tournament.objects.get(id=data["tournament_id"])
+        team = Team.objects.get(id=data["team_id"])
 
-        if tournament.deadline < timezone.now():
-            raise serializers.ValidationError("Registration closed: deadline passed")
+        if tournament.registration_deadline_utc < timezone.now():
+            raise serializers.ValidationError(
+                {"registration_deadline_utc": "Registration closed: deadline passed"}
+            )
 
         current_registrations = Registration.objects.filter(tournament=tournament).count()
         if current_registrations >= tournament.max_teams:
