@@ -11,3 +11,5 @@
 - Test 2 (successful registration): ensures happy path works.
 - Test 3 (deadline fail): verifies business rule prevents late registration.
 - Test 4 (tournament full): checks max_teams limit is enforced.
+
+6. Boundary test (exactly at deadline vs after) – ensures registration is allowed exactly at the deadline but rejected one second later.
