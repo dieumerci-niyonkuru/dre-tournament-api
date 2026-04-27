@@ -6,6 +6,7 @@ class Tournament(models.Model):
     name = models.CharField(max_length=255)
     max_teams = models.IntegerField()
     deadline = models.DateTimeField()
+    registration_deadline_utc = models.DateTimeField()
 
     def __str__(self):
         return self.name
@@ -34,8 +35,3 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.team.name} -> {self.tournament.name}"
-
-# Model relationships:
-# - Tournament has many Registrations (one-to-many)
-# - Team has many Registrations (one-to-many)
-# - Registration links Tournament and Team with unique_together constraint
